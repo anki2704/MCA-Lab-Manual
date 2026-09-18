@@ -30,7 +30,7 @@ int main() {
             odd++;
     }
 
-    cout << "----- Results -----" << endl;
+    cout << "Results : " << endl;
     cout << "Positive numbers : " << positive << endl;
     cout << "Negative numbers : " << negative << endl;
     cout << "Even numbers     : " << even << endl;
