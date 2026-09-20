@@ -10,7 +10,5 @@ int main() {
 
     cout << "The string is: ";
     cout <<*ptr<< endl;
-//    str[1] = 'o';
-//    cout<<str; 
 
 }
