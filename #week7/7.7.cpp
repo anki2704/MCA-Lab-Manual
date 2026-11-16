@@ -1,22 +1,29 @@
 #include<iostream>
 using namespace std;
 
-class A{
+class Demo
+{
+    int num;
+
 public:
-	int x;
-	A* ptr;
-	A() {
-		x=10;
-	}
-	A*& getvalue(){
-		return this->ptr;
-	}
+    Demo* set_data(int n)
+    {
+        this->num = n;
+        return this;
+    }
+
+    void display()
+    {
+        cout << "Number is: " << num << endl;
+    }
 };
+
 int main()
 {
-	A obj;
-	A*& p=obj.getvalue();
-	cout<<p->x;
-	
-	return 0;
+    Demo obj;
+
+    obj.set_data(10)->display();
+
+    return 0;
 }
+

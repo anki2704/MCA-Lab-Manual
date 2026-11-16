@@ -1,0 +1,112 @@
+-- 1. PERSON TABLE
+CREATE TABLE PERSON (
+    driver_id VARCHAR2(20) PRIMARY KEY,
+    name VARCHAR2(50),
+    address VARCHAR2(100)
+);
+
+-- 2. CAR TABLE
+CREATE TABLE CAR (
+    regno VARCHAR2(20) PRIMARY KEY,
+    model VARCHAR2(50),
+    year NUMBER(4)
+);
+
+-- 3. ACCIDENT TABLE
+CREATE TABLE ACCIDENT (
+    report_number NUMBER PRIMARY KEY,
+    accd_date DATE,
+    location VARCHAR2(100)
+);
+
+-- 4. OWNS TABLE
+CREATE TABLE OWNS (
+    driver_id VARCHAR2(20),
+    regno VARCHAR2(20),
+    PRIMARY KEY (driver_id, regno),
+    FOREIGN KEY (driver_id) REFERENCES PERSON(driver_id),
+    FOREIGN KEY (regno) REFERENCES CAR(regno)
+);
+
+-- 5. PARTICIPATED TABLE
+CREATE TABLE PARTICIPATED (
+    driver_id VARCHAR2(20),
+    regno VARCHAR2(20),
+    report_number NUMBER,
+    damage_amount NUMBER,
+    PRIMARY KEY (driver_id, regno, report_number),
+    FOREIGN KEY (driver_id) REFERENCES PERSON(driver_id),
+    FOREIGN KEY (regno) REFERENCES CAR(regno),
+    FOREIGN KEY (report_number) REFERENCES ACCIDENT(report_number)
+);
+
+INSERT INTO PERSON VALUES ('D01', 'Rahul', 'Delhi');
+INSERT INTO PERSON VALUES ('D02', 'Amit', 'Agra');
+INSERT INTO PERSON VALUES ('D03', 'Priya', 'Noida');
+INSERT INTO PERSON VALUES ('D04', 'Neha', 'Aligarh');
+INSERT INTO PERSON VALUES ('D05', 'Rohit', 'Mathura');
+INSERT INTO CAR VALUES ('UP16AB1234', 'Honda City', 2020);
+INSERT INTO CAR VALUES ('UP80CD5678', 'Maruti Swift', 2019);
+INSERT INTO CAR VALUES ('UP16EF9012', 'Hyundai Creta', 2021);
+INSERT INTO CAR VALUES ('UP81GH3456', 'Honda City', 2022);
+INSERT INTO CAR VALUES ('UP14IJ7890', 'Tata Nexon', 2023);
+INSERT INTO ACCIDENT VALUES (11, DATE '2008-05-12', 'Delhi');
+INSERT INTO ACCIDENT VALUES (12, DATE '2008-08-20', 'Agra');
+INSERT INTO ACCIDENT VALUES (13, DATE '2010-03-15', 'Noida');
+INSERT INTO ACCIDENT VALUES (14, DATE '2015-07-10', 'Aligarh');
+INSERT INTO ACCIDENT VALUES (15, DATE '2008-11-25', 'Mathura');
+INSERT INTO OWNS VALUES ('D01', 'UP16AB1234');
+INSERT INTO OWNS VALUES ('D02', 'UP80CD5678');
+INSERT INTO OWNS VALUES ('D03', 'UP16EF9012');
+INSERT INTO OWNS VALUES ('D04', 'UP81GH3456');
+INSERT INTO OWNS VALUES ('D05', 'UP14IJ7890');
+INSERT INTO PARTICIPATED VALUES ('D01', 'UP16AB1234', 11, 15000);
+INSERT INTO PARTICIPATED VALUES ('D02', 'UP80CD5678', 12, 20000);
+INSERT INTO PARTICIPATED VALUES ('D03', 'UP16EF9012', 13, 30000);
+INSERT INTO PARTICIPATED VALUES ('D04', 'UP81GH3456', 14, 18000);
+INSERT INTO PARTICIPATED VALUES ('D05', 'UP14IJ7890', 15, 22000);
+COMMIT;
+--update the damage amount for the accident with report number 12 to 25000
+UPDATE PARTICIPATED
+SET damage_amount = 25000
+WHERE regno = 'UP80CD5678'
+AND report_number = 12;
+
+
+--check the record
+SELECT * FROM PARTICIPATED
+WHERE report_number = 12;
+
+commit;
+
+--Add a new accident to the database
+INSERT INTO ACCIDENT
+VALUES (16, DATE '2024-02-15', 'Mumbai');
+commit;
+
+--Find the total number of people who owned cars involved in accidents in 2008
+SELECT COUNT(DISTINCT O.driver_id) AS TOTAL_PEOPLE
+FROM OWNS O
+JOIN PARTICIPATED P
+ON O.driver_id = P.driver_id
+AND O.regno = P.regno
+JOIN ACCIDENT A
+ON P.report_number = A.report_number
+WHERE EXTRACT(YEAR FROM A.accd_date) = 2008;
+
+commit;
+
+--Find the number of accidents in which cars belonging to a specific model were involved
+SELECT COUNT(DISTINCT P.report_number) AS TOTAL_ACCIDENTS
+FROM CAR C
+JOIN PARTICIPATED P
+ON C.regno = P.regno
+WHERE C.model = 'Honda City';
+
+commit;
+
+SELECT * FROM PERSON;
+SELECT * FROM CAR;
+SELECT * FROM ACCIDENT;
+SELECT * FROM OWNS;
+SELECT * FROM PARTICIPATED;

@@ -9,14 +9,14 @@ class Numbers{
 			cout<<"Enter two numbers: ";
 			cin>>a>>b;
 		}
-		int mx(){
-			return(this->a>this->b)?this->a:this->b;
+		int max(){
+			return(this->a > this->b)?this->a:this->b;
 		}
 };
 int main()
 {
 	Numbers n;
 	n.input();
-	cout<<"Greatest: "<<n.mx();
+	cout<<"Greatest: "<<n.max();
 	return 0;
 }

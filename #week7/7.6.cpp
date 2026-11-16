@@ -25,7 +25,6 @@ class flight{
 	}
 	show_data()
 	{
-		cout << "------details------" << endl;
 		cout << "flight no : " << this->flight_no << endl;
 		cout << "source : " << this->source << endl;
 		cout << "destination : " << this->destination << endl;
