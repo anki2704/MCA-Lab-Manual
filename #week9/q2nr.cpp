@@ -1,3 +1,6 @@
+//non recursive
+
+
 #include <iostream>
 #include <cmath>
 using namespace std;

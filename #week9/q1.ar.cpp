@@ -22,8 +22,8 @@ int main()
         cout << "Factorial is not defined for negative numbers.";
     else
     cout <<"Factorial of number "<< n <<" is "<< factorial(n)<<" in recursive manner ."<< endl; 
-    }
+    
 
-    return 0;
+    
 }
 
